@@ -22,7 +22,7 @@
 
 #include <wlan_objmgr_psoc_obj.h>
 #include "wlan_tdls_cfg_api.h"
-#include "../../core/src/wlan_tdls_main.h"
+#include "wlan_tdls_main.h"
 
 QDF_STATUS
 cfg_tdls_get_support_enable(struct wlan_objmgr_psoc *psoc,
@@ -368,4 +368,18 @@ cfg_tdls_set_scan_enable(struct wlan_objmgr_psoc *psoc,
 	soc_obj->tdls_configs.tdls_scan_enable = val;
 
 	return QDF_STATUS_SUCCESS;
+}
+
+uint16_t
+cfg_tdls_get_max_peer_count(struct wlan_objmgr_psoc *psoc)
+{
+	struct tdls_soc_priv_obj *soc_obj;
+
+	soc_obj = wlan_psoc_get_tdls_soc_obj(psoc);
+	if (!soc_obj) {
+		tdls_err("tdls soc null");
+		return 0;
+	}
+
+	return soc_obj->max_num_tdls_sta;
 }

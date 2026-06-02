@@ -30,9 +30,9 @@
 #include <wlan_objmgr_peer_obj.h>
 #include "wlan_p2p_tgt_api.h"
 #include "wlan_p2p_public_struct.h"
-#include "../../core/src/wlan_p2p_main.h"
-#include "../../core/src/wlan_p2p_roc.h"
-#include "../../core/src/wlan_p2p_off_chan_tx.h"
+#include "wlan_p2p_main.h"
+#include "wlan_p2p_roc.h"
+#include "wlan_p2p_off_chan_tx.h"
 
 #define IEEE80211_FC0_TYPE_MASK              0x0c
 #define P2P_NOISE_FLOOR_DBM_DEFAULT          (-96)
@@ -349,7 +349,7 @@ QDF_STATUS tgt_p2p_mgmt_frame_rx_cb(struct wlan_objmgr_psoc *psoc,
 
 	pdata = (uint8_t *)qdf_nbuf_data(buf);
 	rx_mgmt->frame_len = mgmt_rx_params->buf_len;
-	rx_mgmt->rx_chan = mgmt_rx_params->channel;
+	rx_mgmt->rx_freq = mgmt_rx_params->chan_freq;
 	rx_mgmt->vdev_id = vdev_id;
 	rx_mgmt->frm_type = frm_type;
 	rx_mgmt->rx_rssi = mgmt_rx_params->snr +

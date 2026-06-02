@@ -4740,6 +4740,11 @@ static inline bool netif_is_ovs_port(const struct net_device *dev)
 	return dev->priv_flags & IFF_OVS_DATAPATH;
 }
 
+static inline bool netif_is_any_bridge_port(const struct net_device *dev)
+{
+	return netif_is_bridge_port(dev) || netif_is_ovs_port(dev);
+}
+
 static inline bool netif_is_team_master(const struct net_device *dev)
 {
 	return dev->priv_flags & IFF_TEAM;
@@ -5002,5 +5007,7 @@ do {								\
 #define DEV_STATS_ADD(DEV, FIELD, VAL) 	\
 		atomic_long_add((VAL), &(DEV)->stats.__##FIELD)
 #define DEV_STATS_READ(DEV, FIELD) atomic_long_read(&(DEV)->stats.__##FIELD)
+
+extern struct net_device *blackhole_netdev;
 
 #endif	/* _LINUX_NETDEVICE_H */

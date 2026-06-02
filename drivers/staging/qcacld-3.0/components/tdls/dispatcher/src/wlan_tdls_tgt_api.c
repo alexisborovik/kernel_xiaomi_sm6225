@@ -24,9 +24,9 @@
 
 #include "qdf_status.h"
 #include <wlan_tdls_tgt_api.h>
-#include "../../core/src/wlan_tdls_main.h"
-#include "../../core/src/wlan_tdls_cmds_process.h"
-#include "../../core/src/wlan_tdls_mgmt.h"
+#include "wlan_tdls_main.h"
+#include "wlan_tdls_cmds_process.h"
+#include "wlan_tdls_mgmt.h"
 
 static inline struct wlan_lmac_if_tdls_tx_ops *
 wlan_psoc_get_tdls_txops(struct wlan_objmgr_psoc *psoc)
@@ -184,9 +184,9 @@ tgt_tdls_event_handler(struct wlan_objmgr_psoc *psoc,
 		tdls_err("psoc: 0x%pK, info: 0x%pK", psoc, info);
 		return QDF_STATUS_E_NULL_VALUE;
 	}
-	tdls_debug("vdev: %d, type: %d, reason: %d" QDF_MAC_ADDR_STR,
+	tdls_debug("vdev: %d, type: %d, reason: %d" QDF_MAC_ADDR_FMT,
 		   info->vdev_id, info->message_type, info->peer_reason,
-		   QDF_MAC_ADDR_ARRAY(info->peermac.bytes));
+		   QDF_MAC_ADDR_REF(info->peermac.bytes));
 	notify = qdf_mem_malloc(sizeof(*notify));
 	if (!notify) {
 		tdls_err("mem allocate fail");
@@ -293,7 +293,7 @@ QDF_STATUS tgt_tdls_mgmt_frame_process_rx_cb(
 
 	pdata = (uint8_t *)qdf_nbuf_data(buf);
 	rx_mgmt->frame_len = mgmt_rx_params->buf_len;
-	rx_mgmt->rx_chan = mgmt_rx_params->channel;
+	rx_mgmt->rx_freq = mgmt_rx_params->chan_freq;
 	rx_mgmt->vdev_id = vdev_id;
 	rx_mgmt->frm_type = frm_type;
 	rx_mgmt->rx_rssi = mgmt_rx_params->rssi;
